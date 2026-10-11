@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CZwiki导航网</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* 防止水平滚动 */
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background: linear-gradient(135deg, #1e88e5, #64b5f6);
+            padding: 10px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-logo {
+            font-size: 1.5em;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar-items {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar-item {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-item:hover {
+            color: #ffffffdd;
+        }
+
+        /* 汉堡菜单样式 */
+        .navbar-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* 汉堡菜单动画 */
+        .navbar-toggle:hover .bar {
+            background-color: #ffffffdd;
+        }
+
+        .navbar-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .navbar-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .navbar-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* 导航菜单展开样式 */
+        .navbar-items.expanded {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: linear-gradient(135deg, #e6e9ef, #f5f7fa);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            width: 200px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .navbar-items.expanded .navbar-item {
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-items.expanded .navbar-item:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+
+        /* 小屏幕样式 */
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: flex;
+            }
+
+            .navbar-items {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                width: 100%;
+            }
+
+            .navbar-items.active {
+                display: flex;
+            }
+        }
+
+        /* 中间内容 */
+        .content {
+            margin-top: 80px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 2.5rem;
+            color: #1e88e5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        /* 搜索框容器 */
+        .search-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .search-bar:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 搜索引擎选择 */
+        .search-engine-select {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        /* 搜索按钮 */
+        .search-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 其他链接 */
+        .links {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+
+        .links a:hover {
+            color: #007bff;
+        }
+
+        /* 底部版权 */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* 响应式设计 */
+        @media screen and (max-width: 768px) {
+            .search-container {
+                width: 95%;
+            }
+
+            .search-bar,
+            .search-engine-select {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .search-button {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+	
+	<!-- 导航栏 -->
+	<nav class="navbar" id="nav">
+	    <div class="navbar-container">
+	        <a href="./index.html" class="navbar-logo">⬅️返回主页面⬅️</a>
+	        <div class="navbar-toggle" id="navbarToggle">
+	            <div class="bar"></div>
+	            <div class="bar"></div>
+	            <div class="bar"></div>
+	        </div>
+	        <ul class="navbar-items" id="navbarItems">
+                <li><b><a style="color: #000000;" onclick='return confirm("感谢您的支持！\nCZwiki 会持续优化，带来更多实用功能。\n这个网站正是出自陈哲威之手。\n若你好奇这个网站的用途，目前它还在不断完善中，未来可期。\n（其实我也不知道网站有什么用，闲暇时就手搓出来了。）");' class="navbar-item">🌐关于网站</a></b></li>
+                <li><b><a style="color: #000000;" href="./HistoryWebpage.html" class="navbar-item">🌐网站历史</a></b></li>
+                <li><b><a style="color: #000000;" href="./Sponsorship/Sponsorship.html" class="navbar-item">🌐赞助网站</a></b></li>
+	        </ul>
+	    </div>
+	</nav>
+
+    <!-- 中间内容 -->
+    <div class="content">
+        <h1>CZwiki导航网</h1>
+        <h3>欢迎来到 CZwiki 导航网，这里为您提供便捷的网络入口。</h3>
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="search-container">
+        <input type="text" class="search-bar" id="searchBar" placeholder="输入想要搜索的内容">
+        <select class="search-engine-select" id="searchEngine">
+            <option value="https://www.bing.com/search?q=">微软Bing</option>
+            <option value="https://www.baidu.com/s?wd=">百度Baidu</option>
+            <option value="https://www.sogou.com/web?query=">搜狗Sogou</option>
+            <option value="https://so.toutiao.com/search?keyword=">头条Toutiao</option>
+            <option value="https://yz.m.sm.cn/s?from=wm827671&q=">神马SM</option>
+            <option value="https://m.so.com/s?q=">好搜360</option>
+            <option value="https://duckduckgo.com/?q=">Duckduckgo</option>
+        </select>
+        <button class="search-button" onclick="search()">搜索</button>
+    </div>
+
+    <!-- 其他链接 -->
+	<div class="links">
+	    <a href="./other/FeiDian4cWeb.html" target="_blank" >飞电4C网</a>
+		<a href="./8000/9+1shi/index.html" target="_blank" >垃圾堆</a>
+		<a href="./8000/YYZ/index.html" target="_blank" >音乐桌</a>
+	</div>
+	<div class="links">
+	    <a href="./other/ExtremelyHappyWeb.html" target="_blank" >极乐网EHW</a>
+	    <a href="https://one.kbai.cc/cxk/10/" target="_blank" >🐔乐盒</a>
+	    <a href="https://one.kbai.cc/cxk/8/" target="_blank" >别踩🐔块</a>
+	</div>
+
+    <!-- 底部版权 -->
+    <footer class="footer">
+        <p><b>©️2025 Czwiki 无公安网备案</b>😅</p>
+    </footer>
+
+    <script>
+        function search() {
+            const query = document.getElementById('searchBar').value.trim();
+            if (query === '') return;
+            const engine = document.getElementById('searchEngine').value;
+            window.open(engine + encodeURIComponent(query), '_blank');
+        }
+
+        document.getElementById('searchBar').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+    </script>
+	
+	<script>
+	    document.getElementById('navbarToggle').addEventListener('click', function () {
+	        const navbarItems = document.getElementById('navbarItems');
+	        const navbarToggle = document.getElementById('navbarToggle');
+	        navbarItems.classList.toggle('expanded');
+	        navbarToggle.classList.toggle('active');
+	    });
+	</script>
+</body>
+</html>
