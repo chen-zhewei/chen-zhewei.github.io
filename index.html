@@ -2,20 +2,51 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>陈哲威 | 全栈爱好者 · 服务器运维 · 硬件玩家</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- ============ SEO 核心 ============ -->
+<title>陈哲威的个人网站</title>
+<meta name="description" content="陈哲威（Chen Zhewei / chenzhewei）的个人网站。广西柳州人，自 2018 年自学编程，运营 Minecraft Java 服务器，开发 Python 软件与检索问答 AI，玩转 Raspberry Pi、ESP8266 等开发板。">
+<meta name="keywords" content="陈哲威, chenzhewei, Chen Zhewei, 陈哲威个人网站, 陈哲威博客, 柳州陈哲威, Minecraft服务器, Python开发, 树莓派, ESP8266, 硬件玩家, 自学编程">
+<meta name="author" content="陈哲威">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#6366f1">
+<link rel="canonical" href="https://chenzhewei.example.com/">
+
+<!-- ============ Open Graph ============ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="陈哲威个人网站">
+<meta property="og:title" content="陈哲威 (Chen Zhewei) | 个人网站">
+<meta property="og:description" content="自学编程 · Minecraft 服务器运维 · Python 与 AI 开发 · 硬件玩家。">
+<meta property="og:url" content="https://chenzhewei.example.com/">
+<meta property="og:image" content="https://chenzhewei.example.com/chenzhewei.png">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- ============ Twitter ============ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="陈哲威 (Chen Zhewei) | 个人网站">
+<meta name="twitter:description" content="自学编程 · Minecraft 服务器运维 · Python 与 AI 开发 · 硬件玩家。">
+<meta name="twitter:image" content="https://chenzhewei.example.com/chenzhewei.png">
+
+<!-- ============ 多语言 hreflang ============ -->
+<link rel="alternate" hreflang="zh-CN" href="https://chenzhewei.example.com/">
+<link rel="alternate" hreflang="en" href="https://chenzhewei.example.com/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://chenzhewei.example.com/">
+
 <style>
 /* ============ 基础 ============ */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
 :root{
-  --ease: cubic-bezier(.22,1,.36,1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ink:#171b2e;
   --ink2:#3d4560;
   --ink3:#6b7490;
-  --r-xl:36px;
-  --r-lg:26px;
-  --r-md:18px;
+  --r-xl:28px;
+  --r-lg:22px;
+  --r-md:14px;
 }
 
 html{
@@ -37,19 +68,20 @@ body{
 button:focus,a:focus,.card:focus{outline:none;}
 button::-moz-focus-inner{border:0;}
 
-/* 光标光晕 */
+/* 光标光晕 —— 使用 GPU 合成层，避免重绘 */
 .cursor-glow{
   position:fixed;
   top:0;left:0;
-  width:420px;height:420px;
+  width:480px;height:480px;
   border-radius:50%;
-  background:radial-gradient(circle, rgba(99,102,241,.14), rgba(14,165,233,.06) 45%, transparent 70%);
+  background:radial-gradient(circle, rgba(99,102,241,.07), rgba(14,165,233,.03) 45%, transparent 70%);
   pointer-events:none;
   z-index:-1;
   transform:translate3d(-50%,-50%,0);
   will-change:transform;
   opacity:0;
-  transition:opacity .6s var(--ease);
+  transition:opacity 1.2s var(--ease-soft);
+  contain:strict;
 }
 body:hover .cursor-glow{opacity:1;}
 
@@ -60,19 +92,20 @@ body::before{
   inset:-20%;
   z-index:-2;
   background:
-    radial-gradient(closest-side, rgba(99,102,241,.50), transparent 72%) 18% 22%/46% 46% no-repeat,
-    radial-gradient(closest-side, rgba(14,165,233,.45), transparent 72%) 82% 12%/44% 44% no-repeat,
-    radial-gradient(closest-side, rgba(168,85,247,.42), transparent 72%) 74% 84%/48% 48% no-repeat,
-    radial-gradient(closest-side, rgba(236,72,153,.30), transparent 72%) 12% 88%/42% 42% no-repeat,
-    linear-gradient(160deg,#eef1ff 0%,#e6f0ff 34%,#f3ecff 66%,#e6f9ff 100%);
+    radial-gradient(closest-side, rgba(99,102,241,.36), transparent 72%) 18% 22%/46% 46% no-repeat,
+    radial-gradient(closest-side, rgba(14,165,233,.30), transparent 72%) 82% 12%/44% 44% no-repeat,
+    radial-gradient(closest-side, rgba(168,85,247,.30), transparent 72%) 74% 84%/48% 48% no-repeat,
+    radial-gradient(closest-side, rgba(236,72,153,.18), transparent 72%) 12% 88%/42% 42% no-repeat,
+    linear-gradient(160deg,#eef1ff 0%,#e8f1ff 34%,#f4edff 66%,#e8f9ff 100%);
   transform:translateZ(0);
   will-change:transform;
-  animation:aurora 32s ease-in-out infinite alternate;
+  animation:aurora 36s ease-in-out infinite alternate;
   pointer-events:none;
+  contain:strict;
 }
 @keyframes aurora{
   0%  {transform:translate3d(0,0,0) scale(1) rotate(0deg);}
-  100%{transform:translate3d(1.5%,-1.5%,0) scale(1.10) rotate(-3deg);}
+  100%{transform:translate3d(1.2%,-1.2%,0) scale(1.06) rotate(-2.4deg);}
 }
 
 a{-webkit-tap-highlight-color:transparent;}
@@ -109,7 +142,7 @@ img{display:block;max-width:100%;}
   top:0;left:0;right:0;
   z-index:1000;
   padding:18px 24px;
-  transition:padding .5s var(--ease);
+  transition:padding .6s var(--ease-soft);
 }
 .nav-inner{
   position:relative;
@@ -123,11 +156,11 @@ img{display:block;max-width:100%;}
   border-radius:999px;
   background:rgba(255,255,255,.62);
   border:1px solid rgba(255,255,255,.75);
-  backdrop-filter:blur(18px) saturate(180%);
-  -webkit-backdrop-filter:blur(18px) saturate(180%);
-  box-shadow:0 6px 26px -14px rgba(23,27,46,.38), inset 0 1px 0 rgba(255,255,255,.9);
-  transition:background .5s var(--ease), box-shadow .5s var(--ease),
-             border-color .5s var(--ease);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  box-shadow:0 6px 20px -14px rgba(23,27,46,.28), inset 0 1px 0 rgba(255,255,255,.9);
+  transition:background .6s var(--ease-soft), box-shadow .6s var(--ease-soft),
+             border-color .6s var(--ease-soft);
 }
 .nav-inner::before{
   content:"";
@@ -135,25 +168,25 @@ img{display:block;max-width:100%;}
   inset:0;
   border-radius:inherit;
   padding:1px;
-  background:linear-gradient(120deg,rgba(99,102,241,.9),rgba(14,165,233,.8),rgba(168,85,247,.9),rgba(236,72,153,.75));
+  background:linear-gradient(120deg,rgba(99,102,241,.7),rgba(14,165,233,.55),rgba(168,85,247,.7),rgba(236,72,153,.5));
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
           mask-composite:exclude;
-  opacity:.35;
+  opacity:.3;
   pointer-events:none;
-  transition:opacity .5s var(--ease);
+  transition:opacity .6s var(--ease-soft);
 }
 
 .nav-shell.is-scrolled{padding:10px 24px;}
 .nav-shell.is-scrolled .nav-inner{
   background:rgba(255,255,255,.9);
   border-color:rgba(255,255,255,.95);
-  box-shadow:0 20px 44px -24px rgba(23,27,46,.5),
-             0 2px 6px -2px rgba(23,27,46,.10),
+  box-shadow:0 16px 36px -24px rgba(23,27,46,.36),
+             0 2px 6px -2px rgba(23,27,46,.06),
              inset 0 1px 0 rgba(255,255,255,.95);
 }
-.nav-shell.is-scrolled .nav-inner::before{opacity:.8;}
+.nav-shell.is-scrolled .nav-inner::before{opacity:.7;}
 
 /* 品牌 */
 .brand{
@@ -167,8 +200,8 @@ img{display:block;max-width:100%;}
   width:26px;height:26px;
   border-radius:9px;
   background:conic-gradient(from 140deg,#6366f1,#0ea5e9,#a855f7,#ec4899,#6366f1);
-  box-shadow:0 8px 16px -8px rgba(99,102,241,.95);
-  animation:spinSlow 9s linear infinite;
+  box-shadow:0 8px 16px -8px rgba(99,102,241,.7);
+  animation:spinSlow 10s linear infinite;
   flex:none;
 }
 @keyframes spinSlow{to{transform:rotate(360deg);}}
@@ -201,7 +234,7 @@ img{display:block;max-width:100%;}
   background:rgba(99,102,241,.08);
   border:1px solid rgba(99,102,241,.18);
   white-space:nowrap;
-  transition:background .35s var(--ease), border-color .35s var(--ease);
+  transition:background .4s var(--ease-soft), border-color .4s var(--ease-soft);
 }
 .live-clock:hover{background:rgba(99,102,241,.14);}
 .live-clock .pulse{
@@ -227,7 +260,7 @@ img{display:block;max-width:100%;}
   color:var(--ink2);
   text-decoration:none;
   white-space:nowrap;
-  transition:color .35s var(--ease), background .35s var(--ease);
+  transition:color .4s var(--ease-soft), background .4s var(--ease-soft);
 }
 .nav-links a::after{
   content:"";
@@ -237,7 +270,7 @@ img{display:block;max-width:100%;}
   border-radius:2px;
   transform:translateX(-50%);
   background:linear-gradient(90deg,#6366f1,#0ea5e9,#a855f7);
-  transition:width .4s var(--ease);
+  transition:width .45s var(--ease-soft);
 }
 .nav-links a:hover,
 .nav-links a.active{
@@ -257,12 +290,12 @@ img{display:block;max-width:100%;}
   background:linear-gradient(135deg,rgba(99,102,241,.10),rgba(14,165,233,.10));
   cursor:pointer;
   overflow:hidden;
-  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
+  transition:transform .4s var(--ease-soft), box-shadow .4s var(--ease-soft), border-color .4s var(--ease-soft);
 }
 .lang-btn:hover{
   transform:translateY(-1px);
   border-color:rgba(99,102,241,.6);
-  box-shadow:0 10px 22px -12px rgba(99,102,241,.95);
+  box-shadow:0 10px 22px -12px rgba(99,102,241,.75);
 }
 .lang-label{
   position:absolute;
@@ -274,7 +307,7 @@ img{display:block;max-width:100%;}
   font-weight:800;
   letter-spacing:.5px;
   color:#4338ca;
-  transition:opacity .35s var(--ease), transform .35s var(--ease);
+  transition:opacity .4s var(--ease-soft), transform .4s var(--ease-soft);
 }
 .lang-btn .lang-zh{opacity:1;transform:none;}
 .lang-btn .lang-en{opacity:0;transform:translateY(10px);}
@@ -291,9 +324,9 @@ body.lang-en .lang-btn .lang-en{opacity:1;transform:none;}
   border:1px solid rgba(99,102,241,.22);
   background:rgba(255,255,255,.75);
   cursor:pointer;
-  transition:box-shadow .35s var(--ease), background .35s var(--ease);
+  transition:box-shadow .4s var(--ease-soft), background .4s var(--ease-soft);
 }
-.hamburger:hover{box-shadow:0 10px 22px -12px rgba(99,102,241,.9);}
+.hamburger:hover{box-shadow:0 10px 22px -12px rgba(99,102,241,.7);}
 .hamburger span{
   position:absolute;
   left:50%;
@@ -301,7 +334,7 @@ body.lang-en .lang-btn .lang-en{opacity:1;transform:none;}
   border-radius:2px;
   background:linear-gradient(90deg,#6366f1,#0ea5e9);
   transform:translateX(-50%);
-  transition:top .4s var(--ease), transform .4s var(--ease), opacity .28s var(--ease);
+  transition:top .45s var(--ease-soft), transform .45s var(--ease-soft), opacity .3s var(--ease-soft);
 }
 .hamburger span:nth-child(1){top:12px;}
 .hamburger span:nth-child(2){top:18px;}
@@ -319,12 +352,12 @@ body.lang-en span[data-lang="en"]{display:inline;}
 
 /* ============ 入场动画 ============ */
 @keyframes revealUp{
-  from{opacity:0;transform:translate3d(0,26px,0);}
+  from{opacity:0;transform:translate3d(0,24px,0);}
   to  {opacity:1;transform:translate3d(0,0,0);}
 }
-.reveal{opacity:0;transform:translate3d(0,26px,0);}
+.reveal{opacity:0;transform:translate3d(0,24px,0);}
 .is-in .reveal{
-  animation:revealUp .85s var(--ease) both;
+  animation:revealUp 1s var(--ease) both;
   animation-delay:var(--d,0s);
 }
 
@@ -341,11 +374,11 @@ body.lang-en span[data-lang="en"]{display:inline;}
   border-radius:var(--r-xl);
   overflow:hidden;
   isolation:isolate;
-  background:linear-gradient(135deg,#1e1b4b 0%,#312e81 26%,#0f3f75 55%,#4338ca 80%,#6d28d9 100%);
+  background:linear-gradient(135deg,#1e1b4b 0%,#312e81 28%,#0f3f75 58%,#4338ca 82%,#6d28d9 100%);
   background-size:220% 220%;
-  animation:heroGrad 20s ease infinite;
-  box-shadow:0 50px 90px -44px rgba(49,46,129,.85),
-             0 20px 44px -24px rgba(23,27,46,.45);
+  animation:heroGrad 24s ease infinite;
+  box-shadow:0 30px 70px -44px rgba(49,46,129,.55),
+             0 16px 32px -20px rgba(23,27,46,.28);
 }
 @keyframes heroGrad{
   0%,100%{background-position:0% 50%;}
@@ -362,28 +395,28 @@ body.lang-en span[data-lang="en"]{display:inline;}
 .g1{
   width:560px;height:560px;
   top:-200px;right:-140px;
-  background:radial-gradient(circle, rgba(56,189,248,.80), transparent 68%);
-  animation:floatA 17s ease-in-out infinite;
+  background:radial-gradient(circle, rgba(56,189,248,.62), transparent 68%);
+  animation:floatA 19s ease-in-out infinite;
 }
 .g2{
   width:460px;height:460px;
   bottom:-200px;left:-120px;
-  background:radial-gradient(circle, rgba(236,72,153,.72), transparent 68%);
-  animation:floatB 21s ease-in-out infinite;
+  background:radial-gradient(circle, rgba(236,72,153,.52), transparent 68%);
+  animation:floatB 23s ease-in-out infinite;
 }
 .g3{
   width:400px;height:400px;
   top:34%;left:44%;
-  background:radial-gradient(circle, rgba(168,85,247,.62), transparent 68%);
-  animation:floatA 19s ease-in-out infinite 2s;
+  background:radial-gradient(circle, rgba(168,85,247,.46), transparent 68%);
+  animation:floatA 21s ease-in-out infinite 2s;
 }
 @keyframes floatA{
   0%,100%{transform:translate3d(0,0,0) scale(1);}
-  50%    {transform:translate3d(36px,-34px,0) scale(1.16);}
+  50%    {transform:translate3d(32px,-30px,0) scale(1.12);}
 }
 @keyframes floatB{
   0%,100%{transform:translate3d(0,0,0) scale(1);}
-  50%    {transform:translate3d(-30px,28px,0) scale(1.14);}
+  50%    {transform:translate3d(-26px,24px,0) scale(1.10);}
 }
 
 .hero-content{position:relative;z-index:2;max-width:760px;}
@@ -426,7 +459,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   -webkit-background-clip:text;
           background-clip:text;
   color:transparent;
-  animation:gradSlide 9s ease infinite;
+  animation:gradSlide 10s ease infinite;
 }
 
 .hero-type{
@@ -464,18 +497,18 @@ body.lang-en span[data-lang="en"]{display:inline;}
   font-size:15px;
   font-weight:700;
   text-decoration:none;
-  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .35s var(--ease);
+  transition:transform .45s var(--ease-soft), box-shadow .45s var(--ease-soft), background .45s var(--ease-soft);
 }
 .btn-primary{
   color:#fff;
   background:linear-gradient(120deg,#6366f1,#0ea5e9 50%,#a855f7);
   background-size:220% 100%;
-  box-shadow:0 16px 32px -16px rgba(99,102,241,1);
-  animation:gradSlide 7s ease infinite;
+  box-shadow:0 14px 28px -16px rgba(99,102,241,.85);
+  animation:gradSlide 8s ease infinite;
 }
 .btn-primary:hover{
   transform:translateY(-3px);
-  box-shadow:0 26px 44px -18px rgba(99,102,241,1);
+  box-shadow:0 22px 40px -18px rgba(99,102,241,.9);
 }
 .btn-ghost{
   color:#e0e7ff;
@@ -512,7 +545,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   -webkit-background-clip:text;
           background-clip:text;
   color:transparent;
-  animation:gradSlide 7s ease infinite;
+  animation:gradSlide 8s ease infinite;
 }
 .stat-label{
   font-size:13px;
@@ -533,12 +566,12 @@ body.lang-en span[data-lang="en"]{display:inline;}
   padding:46px 44px 50px;
   border-radius:var(--r-xl);
   overflow:hidden;
-  background:linear-gradient(155deg, rgba(255,255,255,.95), rgba(255,255,255,.82));
+  background:linear-gradient(155deg, rgba(255,255,255,.96), rgba(255,255,255,.88));
   border:1px solid rgba(255,255,255,.95);
-  box-shadow:0 1px 2px rgba(23,27,46,.03),
-             0 18px 36px -22px rgba(49,46,129,.35),
-             0 44px 84px -54px rgba(49,46,129,.55);
-  transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+  box-shadow:0 1px 2px rgba(23,27,46,.02),
+             0 12px 26px -20px rgba(49,46,129,.20),
+             0 30px 60px -52px rgba(49,46,129,.32);
+  transition:transform .7s var(--ease-soft), box-shadow .7s var(--ease-soft);
   will-change:transform;
   cursor:pointer;
 }
@@ -548,26 +581,26 @@ body.lang-en span[data-lang="en"]{display:inline;}
   inset:0;
   border-radius:inherit;
   background:
-    radial-gradient(620px 230px at 12% 0%, rgba(99,102,241,.14), transparent 70%),
-    radial-gradient(520px 210px at 92% 8%, rgba(14,165,233,.12), transparent 70%);
+    radial-gradient(620px 230px at 12% 0%, rgba(99,102,241,.09), transparent 70%),
+    radial-gradient(520px 210px at 92% 8%, rgba(14,165,233,.07), transparent 70%);
   pointer-events:none;
 }
 .card::after{
   content:"";
   position:absolute;
   top:0;left:0;right:0;
-  height:4px;
-  background:linear-gradient(90deg,#6366f1,#0ea5e9,#a855f7,#ec4899,#6366f1);
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(99,102,241,.6),rgba(14,165,233,.5),rgba(168,85,247,.55),transparent);
   background-size:300% 100%;
-  animation:gradSlide 9s linear infinite;
+  animation:gradSlide 12s linear infinite;
 }
 .card > *{position:relative;z-index:1;}
 
 .card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 4px 10px rgba(23,27,46,.05),
-             0 30px 56px -28px rgba(49,46,129,.5),
-             0 60px 100px -60px rgba(49,46,129,.7);
+  transform:translateY(-5px);
+  box-shadow:0 4px 10px rgba(23,27,46,.03),
+             0 22px 42px -26px rgba(49,46,129,.32),
+             0 44px 80px -58px rgba(49,46,129,.44);
 }
 
 /* 标题 */
@@ -580,32 +613,27 @@ body.lang-en span[data-lang="en"]{display:inline;}
 .section-head::after{
   content:"";
   flex:1;
-  height:2px;
+  height:1px;
   border-radius:2px;
-  background:linear-gradient(90deg,rgba(99,102,241,.55),rgba(14,165,233,.28),transparent);
+  background:linear-gradient(90deg,rgba(99,102,241,.4),rgba(14,165,233,.18),transparent);
 }
 .kicker{
   flex:none;
-  width:44px;height:44px;
+  width:42px;height:42px;
   display:grid;
   place-items:center;
-  border-radius:14px;
-  font-size:14px;
+  border-radius:13px;
+  font-size:13px;
   font-weight:800;
   color:#fff;
   background:linear-gradient(135deg,#6366f1,#0ea5e9);
-  box-shadow:0 14px 26px -14px rgba(99,102,241,1);
+  box-shadow:0 12px 22px -14px rgba(99,102,241,.8);
 }
 .section-title{
   font-size:clamp(21px,2.6vw,29px);
   font-weight:800;
   letter-spacing:-.4px;
-  background:linear-gradient(100deg,#1e1b4b,#4f46e5 38%,#0ea5e9 70%,#a855f7);
-  background-size:220% 100%;
-  -webkit-background-clip:text;
-          background-clip:text;
-  color:transparent;
-  animation:gradSlide 8s ease infinite;
+  color:var(--ink);
 }
 
 /* ============ 关于 ============ */
@@ -639,7 +667,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   color:#4338ca;
   background:rgba(99,102,241,.09);
   border:1px solid rgba(99,102,241,.18);
-  transition:transform .35s var(--ease), background .35s var(--ease);
+  transition:transform .45s var(--ease-soft), background .45s var(--ease-soft);
 }
 .about-tags span:hover{
   transform:translateY(-2px);
@@ -650,13 +678,13 @@ body.lang-en span[data-lang="en"]{display:inline;}
   border-radius:var(--r-lg);
   overflow:hidden;
   border:4px solid rgba(255,255,255,.92);
-  box-shadow:0 26px 54px -24px rgba(49,46,129,.65);
+  box-shadow:0 18px 40px -22px rgba(49,46,129,.4);
   transform:rotate(-2deg);
-  transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+  transition:transform .8s var(--ease-soft), box-shadow .8s var(--ease-soft);
 }
 .about-figure:hover{
   transform:rotate(0deg) scale(1.03);
-  box-shadow:0 38px 74px -28px rgba(49,46,129,.8);
+  box-shadow:0 28px 56px -26px rgba(49,46,129,.5);
 }
 .about-figure img{
   width:100%;
@@ -685,8 +713,8 @@ body.lang-en span[data-lang="en"]{display:inline;}
   border-radius:var(--r-md);
   background:rgba(255,255,255,.72);
   border:1px solid rgba(255,255,255,.95);
-  box-shadow:0 12px 28px -22px rgba(49,46,129,.95);
-  transition:transform .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+  box-shadow:0 10px 24px -20px rgba(49,46,129,.6);
+  transition:transform .5s var(--ease-soft), box-shadow .5s var(--ease-soft), background .5s var(--ease-soft);
 }
 .tl-item:last-child{margin-bottom:0;}
 .tl-item::before{
@@ -696,12 +724,12 @@ body.lang-en span[data-lang="en"]{display:inline;}
   width:14px;height:14px;
   border-radius:50%;
   background:linear-gradient(135deg,#6366f1,#0ea5e9);
-  box-shadow:0 0 0 4px rgba(255,255,255,.98), 0 0 0 7px rgba(99,102,241,.22);
+  box-shadow:0 0 0 4px rgba(255,255,255,.98), 0 0 0 7px rgba(99,102,241,.18);
 }
 .tl-item:hover{
   transform:translateX(7px);
   background:rgba(255,255,255,.98);
-  box-shadow:0 22px 44px -24px rgba(49,46,129,1);
+  box-shadow:0 20px 40px -24px rgba(49,46,129,.7);
 }
 .tl-item h4{
   font-size:17px;
@@ -745,26 +773,30 @@ body.lang-en span[data-lang="en"]{display:inline;}
   font-weight:800;
   color:#fff;
   background:linear-gradient(135deg,#6366f1,#0ea5e9);
-  box-shadow:0 10px 20px -12px rgba(99,102,241,1);
+  box-shadow:0 8px 16px -12px rgba(99,102,241,.75);
 }
 .skill-track{
   position:relative;
-  height:12px;
+  height:10px;
   border-radius:999px;
   overflow:hidden;
-  background:rgba(99,102,241,.1);
-  box-shadow:inset 0 1px 3px rgba(23,27,46,.1);
+  background:rgba(99,102,241,.09);
+  box-shadow:inset 0 1px 2px rgba(23,27,46,.08);
 }
+/* 使用 transform: scaleX 替代 width 动画，性能更好 */
 .skill-fill{
   position:relative;
   height:100%;
-  width:0;
+  width:100%;
   border-radius:999px;
   background:linear-gradient(90deg,#6366f1,#0ea5e9,#a855f7);
   background-size:220% 100%;
-  animation:gradSlide 4s linear infinite;
-  box-shadow:0 0 16px rgba(99,102,241,.65);
-  transition:width 1.3s var(--ease);
+  animation:gradSlide 4.5s linear infinite;
+  box-shadow:0 0 12px rgba(99,102,241,.4);
+  transform-origin:0 50%;
+  transform:scaleX(0);
+  transition:transform 1.6s var(--ease);
+  will-change:transform;
 }
 .skill-fill::after{
   content:"";
@@ -772,6 +804,69 @@ body.lang-en span[data-lang="en"]{display:inline;}
   inset:0;
   border-radius:inherit;
   background:linear-gradient(180deg,rgba(255,255,255,.55),transparent 62%);
+}
+
+/* ============ 探索更多 ============ */
+.explore-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:14px;
+}
+.explore-item{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:20px 22px;
+  border-radius:var(--r-md);
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 10px 24px -20px rgba(49,46,129,.6);
+  text-decoration:none;
+  color:var(--ink);
+  transition:transform .5s var(--ease-soft), box-shadow .5s var(--ease-soft), background .5s var(--ease-soft);
+}
+.explore-item:hover{
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.98);
+  box-shadow:0 20px 40px -22px rgba(49,46,129,.7);
+}
+.explore-icon{
+  flex:none;
+  width:48px;height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(99,102,241,.14), rgba(14,165,233,.14));
+  color:#4f46e5;
+}
+.explore-icon svg{
+  width:24px;height:24px;
+  fill:currentColor;
+}
+.explore-text{
+  flex:1;
+  min-width:0;
+}
+.explore-text h4{
+  font-size:16px;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:3px;
+}
+.explore-text p{
+  font-size:13.5px;
+  color:var(--ink3);
+  line-height:1.4;
+}
+.explore-arrow{
+  flex:none;
+  font-size:18px;
+  color:var(--ink3);
+  transition:transform .5s var(--ease-soft), color .5s var(--ease-soft);
+}
+.explore-item:hover .explore-arrow{
+  transform:translate(3px,-3px);
+  color:#4338ca;
 }
 
 /* ============ Footer ============ */
@@ -783,18 +878,18 @@ body.lang-en span[data-lang="en"]{display:inline;}
   overflow:hidden;
   text-align:center;
   border-radius:var(--r-xl);
-  background:linear-gradient(155deg, rgba(255,255,255,.95), rgba(255,255,255,.82));
+  background:linear-gradient(155deg, rgba(255,255,255,.96), rgba(255,255,255,.88));
   border:1px solid rgba(255,255,255,.95);
-  box-shadow:0 34px 68px -38px rgba(49,46,129,.6);
+  box-shadow:0 24px 48px -36px rgba(49,46,129,.36);
 }
 .site-footer::after{
   content:"";
   position:absolute;
   top:0;left:0;right:0;
-  height:4px;
-  background:linear-gradient(90deg,#6366f1,#0ea5e9,#a855f7,#ec4899,#6366f1);
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(99,102,241,.6),rgba(14,165,233,.5),rgba(168,85,247,.55),transparent);
   background-size:300% 100%;
-  animation:gradSlide 9s linear infinite;
+  animation:gradSlide 12s linear infinite;
 }
 .footer-icons{
   display:flex;
@@ -811,16 +906,16 @@ body.lang-en span[data-lang="en"]{display:inline;}
   color:#4f46e5;
   background:rgba(255,255,255,.8);
   border:1px solid rgba(255,255,255,.95);
-  box-shadow:0 12px 24px -16px rgba(49,46,129,.95);
+  box-shadow:0 10px 22px -16px rgba(49,46,129,.7);
   text-decoration:none;
-  transition:transform .4s var(--ease), box-shadow .4s var(--ease),
-             color .4s var(--ease), background .4s var(--ease);
+  transition:transform .5s var(--ease-soft), box-shadow .5s var(--ease-soft),
+             color .5s var(--ease-soft), background .5s var(--ease-soft);
 }
 .footer-icons a:hover{
   transform:translateY(-6px) rotate(-7deg);
   color:#fff;
   background:linear-gradient(135deg,#6366f1,#0ea5e9);
-  box-shadow:0 22px 38px -18px rgba(99,102,241,1);
+  box-shadow:0 20px 34px -18px rgba(99,102,241,.85);
 }
 .footer-note{
   font-size:14px;
@@ -843,8 +938,8 @@ body.lang-en span[data-lang="en"]{display:inline;}
   opacity:0;
   visibility:hidden;
   transform:translate3d(0,16px,0) scale(.9);
-  box-shadow:0 18px 34px -16px rgba(99,102,241,1);
-  transition:opacity .4s var(--ease), transform .4s var(--ease), visibility .4s;
+  box-shadow:0 18px 34px -16px rgba(99,102,241,.85);
+  transition:opacity .5s var(--ease-soft), transform .5s var(--ease-soft), visibility .5s;
 }
 .to-top.show{
   opacity:1;
@@ -879,14 +974,14 @@ body.lang-en span[data-lang="en"]{display:inline;}
     background:rgba(255,255,255,.95);
     border:1px solid rgba(255,255,255,.95);
     box-shadow:0 34px 66px -28px rgba(23,27,46,.5);
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    backdrop-filter:blur(18px) saturate(180%);
+    -webkit-backdrop-filter:blur(18px) saturate(180%);
     opacity:0;
     visibility:hidden;
     pointer-events:none;
     transform:translate3d(0,-14px,0) scale(.96);
     transform-origin:top center;
-    transition:opacity .4s var(--ease), transform .45s var(--ease), visibility .4s;
+    transition:opacity .5s var(--ease-soft), transform .55s var(--ease-soft), visibility .5s;
   }
   .nav-links.open{
     opacity:1;
@@ -931,6 +1026,69 @@ body.lang-en span[data-lang="en"]{display:inline;}
   }
 }
 </style>
+
+<!-- ============ 结构化数据（SEO 关键） ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://chenzhewei.example.com/#person",
+      "name": "陈哲威",
+      "alternateName": ["Chen Zhewei", "chenzhewei", "CrazyZhewei"],
+      "url": "https://chenzhewei.example.com/",
+      "image": "https://chenzhewei.example.com/chenzhewei.png",
+      "description": "自 2018 年起自学编程，运营 Minecraft Java 服务器，开发 Python 软件与检索问答 AI，熟悉 Raspberry Pi、ESP8266 等开发板。",
+      "jobTitle": "学生 · 全栈爱好者",
+      "nationality": "中国",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "柳州",
+        "addressRegion": "广西",
+        "addressCountry": "CN"
+      },
+      "knowsAbout": [
+        "HTML", "Python", "C++", "Java",
+        "Minecraft 服务器运维", "Paper 插件", "内网穿透",
+        "检索式问答 AI", "网络爬虫", "软件工程",
+        "Raspberry Pi", "ESP8266", "BadUSB",
+        "网络渗透", "Windows 系统"
+      ],
+      "sameAs": [
+        "https://github.com/chen-zhewei",
+        "https://steamcommunity.com/id/chenzhewei/",
+        "https://www.douyin.com/user/MS4wLjABAAAAT27gfoimJg_mmFLM6ZBt1w5gxjxb7LbynLwnUVYEzII",
+        "https://space.bilibili.com/1831160594",
+        "https://live.kuaishou.com/profile/liu9shijiandao"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://chenzhewei.example.com/#website",
+      "url": "https://chenzhewei.example.com/",
+      "name": "陈哲威个人网站",
+      "alternateName": ["Chen Zhewei Portfolio", "chenzhewei 个人主页"],
+      "inLanguage": ["zh-CN", "en"],
+      "publisher": { "@id": "https://chenzhewei.example.com/#person" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://chenzhewei.example.com/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://chenzhewei.example.com/#profilepage",
+      "url": "https://chenzhewei.example.com/",
+      "name": "陈哲威 (Chen Zhewei) 个人主页",
+      "mainEntity": { "@id": "https://chenzhewei.example.com/#person" },
+      "isPartOf": { "@id": "https://chenzhewei.example.com/#website" },
+      "inLanguage": "zh-CN"
+    }
+  ]
+}
+</script>
 </head>
 
 <body class="lang-zh">
@@ -960,6 +1118,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
         <a href="#about"><span data-lang="zh">关于我</span><span data-lang="en">About</span></a>
         <a href="#experience"><span data-lang="zh">经历</span><span data-lang="en">Experience</span></a>
         <a href="#skills"><span data-lang="zh">技能</span><span data-lang="en">Skills</span></a>
+        <a href="#explore"><span data-lang="zh">我的其他站点</span><span data-lang="en">My Other Sites</span></a>
       </div>
 
       <button class="lang-btn" id="langToggle" aria-label="Switch language">
@@ -984,8 +1143,8 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div class="hero-content">
       <span class="hero-badge reveal">
         <span class="dot"></span>
-        <span data-lang="zh">自学生 · 全栈玩家 · 硬件爱好者</span>
-        <span data-lang="en">Self-taught · Full-stack Player · Hardware Enthusiast</span>
+        <span data-lang="zh">学生 · 老网民 · 数码爱好者</span>
+        <span data-lang="en">Student · Veteran Netizen · Digital Enthusiast</span>
       </span>
 
       <h1 class="reveal" style="--d:.06s">
@@ -998,23 +1157,23 @@ body.lang-en span[data-lang="en"]{display:inline;}
       </p>
 
       <p class="hero-sub reveal" style="--d:.18s">
-        <span data-lang="zh">自 2019 年自建服务器，2022 年起开发网站，熟练 Python 与硬件，偶尔涉猎网络渗透。</span>
-        <span data-lang="en">Self-hosting since 2019, building websites since 2022, proficient in Python and hardware, occasionally exploring network penetration.</span>
+        <span data-lang="zh">是的！你没有看错！这就是广西柳州的那个陈哲威搭建的网站。</span>
+        <span data-lang="en">Yes, you read that right! This is the website built by Chen Zhewei from Liuzhou, Guangxi.</span>
       </p>
 
       <div class="hero-actions reveal" style="--d:.24s">
-        <a class="btn btn-primary" href="./chzhwe">
-          <span data-lang="zh">查看旧版网站</span><span data-lang="en">Visit Legacy Site</span>
+        <a class="btn btn-primary" href="#explore">
+          <span data-lang="zh">我的其他站点</span><span data-lang="en">My Other Sites</span>
         </a>
-        <a class="btn btn-ghost" href="#experience">
-          <span data-lang="zh">查看经历</span><span data-lang="en">My Experience</span>
+        <a class="btn btn-ghost" href="./chzhwe">
+          <span data-lang="zh">查看旧版网站</span><span data-lang="en">Legacy Site</span>
         </a>
       </div>
     </div>
 
     <div class="hero-stats reveal" style="--d:.3s">
       <div class="stat">
-        <span class="stat-num"><b data-count="4">0</b>+</span>
+        <span class="stat-num"><b data-count="5">0</b>+</span>
         <div class="stat-label" data-lang="zh">年 Web 开发</div>
         <div class="stat-label" data-lang="en">Years in Web Dev</div>
       </div>
@@ -1024,9 +1183,14 @@ body.lang-en span[data-lang="en"]{display:inline;}
         <div class="stat-label" data-lang="en">Years Self-hosting</div>
       </div>
       <div class="stat">
-        <span class="stat-num"><b data-count="3">0</b>+</span>
-        <div class="stat-label" data-lang="zh">年 AI 编程</div>
-        <div class="stat-label" data-lang="en">Years in AI Coding</div>
+        <span class="stat-num"><b data-count="8">0</b>+</span>
+        <div class="stat-label" data-lang="zh">年自学编程</div>
+        <div class="stat-label" data-lang="en">Years Self-learning Code</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num"><b data-count="17">0</b>+</span>
+        <div class="stat-label" data-lang="zh">年存活时间</div>
+        <div class="stat-label" data-lang="en">Years Survival time</div>
       </div>
     </div>
   </div>
@@ -1048,12 +1212,12 @@ body.lang-en span[data-lang="en"]{display:inline;}
       <div class="about-grid">
         <div class="about-text">
           <div class="reveal" style="--d:.1s" data-lang="zh">
-            <p>八岁那年，我第一次真正触摸到计算机的世界。没有老师，没有课程，只有<span class="accent">拆了又装、坏了再修</span>的好奇心。从 HTML 到 Python，从 Minecraft 服务器到树莓派硬件，十余年自驱探索从未间断。我用 Git 管理每一次提交，在 GitHub 上记录成长轨迹。</p>
-            <p>如今，我熟练运用 Python 开发检索式问答 AI，独立运维 Paper 插件服务器，也在树莓派、ESP8266 与 BadUSB 之间寻找硬件的乐趣。偶尔涉猎网络渗透，持续在算法、硬件与游戏之间构建属于自己的数字世界。</p>
+            <p>自 2018 年起自学编程，2021 年编写 HTML，并于 2022 年发布首个网站。从 <span class="accent">Web 前端</span> 到 <span class="accent">Python 后端</span>，从 <span class="accent">Minecraft 服务器运维</span> 到 <span class="accent">硬件开发</span>，多年来自驱探索从未间断。使用 <span class="accent">Git</span> 进行版本管理，在 GitHub 上持续沉淀项目与思考。</p>
+            <p>熟练掌握 <span class="accent">Python</span> 与 <span class="accent">C++、Java</span> 等语言基础，曾开发 <span class="accent">软件</span>、<span class="accent">爬虫</span> 及 <span class="accent">检索式问答 AI</span>。独立运维 <span class="accent">Paper 插件服务器</span>，热衷硬件开发，熟悉 <span class="accent">Raspberry Pi</span>、<span class="accent">ESP8266</span> 等开发板，并具备一定的 <span class="accent">网络渗透</span> 实践基础。持续在算法、硬件与游戏之间构建属于自己的数字世界。</p>
           </div>
           <div class="reveal" style="--d:.1s" data-lang="en">
-            <p>At age eight, I first truly touched the world of computers. No teachers, no courses—just a curiosity to <span class="accent">take things apart and rebuild them</span>. From HTML to Python, from Minecraft servers to Raspberry Pi hardware, over a decade of uninterrupted self-driven exploration. I use Git for every commit, tracing my growth on GitHub.</p>
-            <p>Today, I develop retrieval-based Q&amp;A AI with Python, independently operate a Paper plugin server, and explore hardware through Raspberry Pi, ESP8266, and BadUSB. Occasionally dabbling in network penetration, I continue to build my own digital world across algorithms, hardware, and games.</p>
+            <p>Self-taught programming since 2018, started touching HTML in 2021, and released the first public website in 2022. From <span class="accent">web front-end</span> to <span class="accent">Python back-end</span>, from <span class="accent">Minecraft server operations</span> to <span class="accent">hardware development</span>, years of self-driven exploration have never stopped. I use <span class="accent">Git</span> for version control, continuously accumulating projects and thoughts on GitHub.</p>
+            <p>Proficient in <span class="accent">Python</span> with foundational knowledge of <span class="accent">C++ and Java</span>, with experience in <span class="accent">software development</span>, <span class="accent">web scraping</span>, and <span class="accent">retrieval-based Q&amp;A AI</span>. Independently operate a <span class="accent">Paper plugin server</span>, passionate about hardware development, familiar with development boards such as <span class="accent">Raspberry Pi</span> and <span class="accent">ESP8266</span>, and possess practical experience in <span class="accent">network penetration</span>. I continue to build my own digital world across algorithms, hardware, and games.</p>
           </div>
 
           <div class="about-tags reveal" style="--d:.14s">
@@ -1072,7 +1236,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 
         <div class="reveal" style="--d:.16s">
           <div class="about-figure">
-            <img src="./chenzhewei.png" alt="Portrait" loading="lazy">
+            <img src="./chenzhewei.png" alt="陈哲威 Chen Zhewei 的个人照片" loading="lazy">
           </div>
         </div>
       </div>
@@ -1113,17 +1277,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
           <p data-lang="en">Participated in the Informatics Olympiad in China, systematically testing and improving algorithmic and programming skills.</p>
         </div>
 
-        <div class="tl-item reveal" style="--d:.24s">
-          <h4>
-            <span data-lang="zh">硬件开发与网络渗透</span>
-            <span data-lang="en">Hardware Development &amp; Network Penetration</span>
-          </h4>
-          <span class="date">2024 – Present</span>
-          <p data-lang="zh">玩转树莓派、ESP8266 WiFi 板、BadUSB 等设备，具备一定网络渗透实践基础，涉猎嵌入式与安全领域。</p>
-          <p data-lang="en">Working with Raspberry Pi, ESP8266 Wi-Fi boards, BadUSB, and more. Possess practical experience in network penetration, exploring embedded systems and security.</p>
-        </div>
-
-        <!-- 2023 -->
+        <!-- 2023 WRC -->
         <div class="tl-item reveal" style="--d:.32s">
           <h4>
             <span data-lang="zh">世界机器人大赛（WRC）</span>
@@ -1134,37 +1288,72 @@ body.lang-en span[data-lang="en"]{display:inline;}
           <p data-lang="en">Participated in the 2023 World Robot Contest, gaining hands-on experience in robot programming and hardware debugging.</p>
         </div>
 
-        <div class="tl-item reveal" style="--d:.4s">
+        <!-- 2022 AI -->
+        <div class="tl-item reveal" style="--d:.24s">
           <h4>
-            <span data-lang="zh">Python 与问答 AI 开发</span>
-            <span data-lang="en">Python &amp; Q&amp;A AI Development</span>
+            <span data-lang="zh">检索/字典驱动问答AI开发</span>
+            <span data-lang="en">Retrieval/Dictionary-driven Q&amp;A AI Development</span>
           </h4>
-          <span class="date">2023 – Present</span>
-          <p data-lang="zh">熟练使用 Python，开发检索式与字典驱动的问答 AI，探索自然语言处理与知识检索。</p>
-          <p data-lang="en">Proficient in Python, developed retrieval-based and dictionary-driven Q&amp;A AI, exploring NLP and knowledge retrieval.</p>
+          <span class="date"><span data-lang="zh">2022 – 至今</span><span data-lang="en">2022 – Present</span></span>
+          <p data-lang="zh">使用 Python 开发检索式与字典驱动的问答 AI，探索自然语言处理与知识检索。</p>
+          <p data-lang="en">Developed retrieval-based and dictionary-driven Q&amp;A AI with Python, exploring NLP and knowledge retrieval.</p>
         </div>
 
-        <!-- 2022 -->
+        <!-- 2022 软硬件开发与网络渗透 -->
+        <div class="tl-item reveal" style="--d:.4s">
+          <h4>
+            <span data-lang="zh">软硬件开发与网络渗透</span>
+            <span data-lang="en">Software &amp; Hardware Development &amp; Network Penetration</span>
+          </h4>
+          <span class="date"><span data-lang="zh">2022 – 至今</span><span data-lang="en">2022 – Present</span></span>
+          <p data-lang="zh">玩转 Raspberry Pi、ESP8266、BadUSB 等硬件设备；使用 Python 进行软件开发，涵盖爬虫、自动化与桌面程序；具备网络渗透实践基础。</p>
+          <p data-lang="en">Working with Raspberry Pi, ESP8266, BadUSB, and more. Software development with Python, covering web scraping, automation, and desktop programs. Possess practical experience in network penetration.</p>
+        </div>
+
+        <!-- 2021 Web -->
         <div class="tl-item reveal" style="--d:.48s">
           <h4>
             <span data-lang="zh">网页开发与运营</span>
             <span data-lang="en">Web Development &amp; Operations</span>
           </h4>
-          <span class="date">2022 – Present</span>
-          <p data-lang="zh">编写 HTML 网站并部署至 GitHub Pages，使用 Git 进行版本管理，持续迭代与运营。</p>
-          <p data-lang="en">Building HTML websites, deploying to GitHub Pages, using Git for version control, continuously iterating and operating.</p>
+          <span class="date"><span data-lang="zh">2021 – 至今</span><span data-lang="en">2021 – Present</span></span>
+          <p data-lang="zh">2021 年开始接触 HTML，2022 年发布首个公网网站并部署至 GitHub Pages，使用 Git 进行版本管理，持续迭代与运营。</p>
+          <p data-lang="en">Started touching HTML in 2021, released first public website in 2022 and deployed to GitHub Pages, using Git for version control, continuously iterating and operating.</p>
         </div>
 
-        <!-- 2019 -->
+        <!-- 2019 Minecraft -->
         <div class="tl-item reveal" style="--d:.56s">
           <h4>
             <span data-lang="zh">自建 Minecraft Java 服务器</span>
             <span data-lang="en">Self-built Minecraft Java Server</span>
           </h4>
-          <span class="date">2019 – Present</span>
+          <span class="date"><span data-lang="zh">2019 – 至今</span><span data-lang="en">2019 – Present</span></span>
           <p data-lang="zh">在房间内自行选购配件，本地搭建 Paper 插件服务端，配置内网穿透并向公网开放，稳定运行至今。</p>
           <p data-lang="en">Assembled hardware in my room, set up a local Paper plugin server, configured NAT traversal and exposed it to the public internet, running stably ever since.</p>
         </div>
+
+        <!-- 2018 自学编程 -->
+        <div class="tl-item reveal" style="--d:.64s">
+          <h4>
+            <span data-lang="zh">自学编程</span>
+            <span data-lang="en">Self-learning Programming</span>
+          </h4>
+          <span class="date"><span data-lang="zh">2018 – 至今</span><span data-lang="en">2018 – Present</span></span>
+          <p data-lang="zh">2018 年起开始自学编程，从基础语法到算法思维，逐步构建自己的技术体系。</p>
+          <p data-lang="en">Started self-learning programming in 2018, from basic syntax to algorithmic thinking, gradually building my own technical system.</p>
+        </div>
+
+        <!-- 20090909 -->
+        <div class="tl-item reveal" style="--d:.56s">
+          <h4>
+            <span data-lang="zh">我来到了地球</span>
+            <span data-lang="en">I came to Earth</span>
+          </h4>
+          <span class="date"><span data-lang="zh">2009 – 至今</span><span data-lang="en">2009 – Present</span></span>
+          <p data-lang="zh">2009年09月09日，我出生了。</p>
+          <p data-lang="en">I was born on September 9, 2009.</p>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1194,45 +1383,45 @@ body.lang-en span[data-lang="en"]{display:inline;}
           <div class="skill-head">
             <span data-lang="zh">Minecraft Java 服务器运维</span>
             <span data-lang="en">Minecraft Java Server Ops</span>
-            <span class="skill-pct">90%</span>
+            <span class="skill-pct">91%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="90"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="91"></div></div>
         </div>
 
         <div class="skill-item reveal" style="--d:.2s">
           <div class="skill-head">
             <span data-lang="zh">Python / AI 开发</span>
             <span data-lang="en">Python / AI Development</span>
-            <span class="skill-pct">80%</span>
+            <span class="skill-pct">78%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="80"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="78"></div></div>
         </div>
 
         <div class="skill-item reveal" style="--d:.26s">
           <div class="skill-head">
             <span data-lang="zh">硬件与嵌入式</span>
             <span data-lang="en">Hardware &amp; Embedded</span>
-            <span class="skill-pct">75%</span>
+            <span class="skill-pct">61%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="75"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="61"></div></div>
         </div>
 
         <div class="skill-item reveal" style="--d:.32s">
           <div class="skill-head">
             <span data-lang="zh">网络渗透</span>
             <span data-lang="en">Network Penetration</span>
-            <span class="skill-pct">70%</span>
+            <span class="skill-pct">67%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="70"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="67"></div></div>
         </div>
 
         <div class="skill-item reveal" style="--d:.38s">
           <div class="skill-head">
             <span data-lang="zh">Windows 与数码设备</span>
             <span data-lang="en">Windows &amp; Digital Devices</span>
-            <span class="skill-pct">92%</span>
+            <span class="skill-pct">88%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="92"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="88"></div></div>
         </div>
 
         <div class="skill-item reveal" style="--d:.44s">
@@ -1250,9 +1439,110 @@ body.lang-en span[data-lang="en"]{display:inline;}
             <span data-lang="en">Photography</span>
             <span class="skill-pct">40%</span>
           </div>
-          <div class="skill-track"><div class="skill-fill" data-percent="40"></div></div>
+          <div class="skill-track"><div class="skill-fill" data-percent="13"></div></div>
+        </div>
+
+                <div class="skill-item reveal" style="--d:.44s">
+          <div class="skill-head">
+            <span data-lang="zh">颜值</span>
+            <span data-lang="en">Video Editing</span>
+            <span class="skill-pct">114514%</span>
+          </div>
+          <div class="skill-track"><div class="skill-fill" data-percent="100"></div></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== 我的其他站点 ===== -->
+  <section class="section" id="explore">
+    <div class="card reveal-root">
+      <div class="section-head">
+        <span class="kicker reveal">04</span>
+        <h2 class="section-title reveal" style="--d:.06s">
+          <span data-lang="zh">我的其他站点</span>
+          <span data-lang="en">My Other Sites</span>
+        </h2>
+      </div>
+
+      <div class="explore-grid">
+        <a class="explore-item reveal" style="--d:.08s"
+           href="https://mc.example.com" target="_blank" rel="noopener">
+          <span class="explore-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2L2 7v10l10 5 10-5V7l-10-5zm0 2.18L19.5 8 12 11.82 4.5 8 12 4.18zM4 9.54l7 3.5V20l-7-3.5v-6.96zm9 3.5l7-3.5v6.96L13 20v-6.96z"/>
+            </svg>
+          </span>
+          <div class="explore-text">
+            <h4 data-lang="zh">Minecraft 服务器官网</h4>
+            <h4 data-lang="en">Minecraft Server Site</h4>
+            <p data-lang="zh">自建 Paper 插件服，长期稳定运行</p>
+            <p data-lang="en">Self-built Paper plugin server, running stably</p>
+          </div>
+          <span class="explore-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      
+      <div class="explore-item reveal" style="--d:.14s; cursor:default; opacity:.72;">
+        <span class="explore-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6l5.25 3.15L17.25 14 13 11.5z"/>
+          </svg>
+        </span>
+        <div class="explore-text">
+          <h4 data-lang="zh">其它站点陈哲威正在开发中</h4>
+          <h4 data-lang="en">More Sites Coming Soon</h4>
+          <p data-lang="zh">新的内容正在路上，敬请期待</p>
+          <p data-lang="en">New content is on the way, stay tuned</p>
+        </div>
+        <span class="explore-arrow" aria-hidden="true">…</span>
+      </div>
+      
+      <div class="explore-item reveal" style="--d:.14s; cursor:default; opacity:.72;">
+        <span class="explore-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6l5.25 3.15L17.25 14 13 11.5z"/>
+          </svg>
+        </span>
+        <div class="explore-text">
+          <h4 data-lang="zh">其它站点陈哲威正在开发中</h4>
+          <h4 data-lang="en">More Sites Coming Soon</h4>
+          <p data-lang="zh">新的内容正在路上，敬请期待</p>
+          <p data-lang="en">New content is on the way, stay tuned</p>
+        </div>
+        <span class="explore-arrow" aria-hidden="true">…</span>
+      </div>
+            
+      <div class="explore-item reveal" style="--d:.14s; cursor:default; opacity:.72;">
+        <span class="explore-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6l5.25 3.15L17.25 14 13 11.5z"/>
+          </svg>
+        </span>
+        <div class="explore-text">
+          <h4 data-lang="zh">其它站点陈哲威正在开发中</h4>
+          <h4 data-lang="en">More Sites Coming Soon</h4>
+          <p data-lang="zh">新的内容正在路上，敬请期待</p>
+          <p data-lang="en">New content is on the way, stay tuned</p>
+        </div>
+        <span class="explore-arrow" aria-hidden="true">…</span>
+      </div>
+            
+      <div class="explore-item reveal" style="--d:.14s; cursor:default; opacity:.72;">
+        <span class="explore-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm1-13h-2v6l5.25 3.15L17.25 14 13 11.5z"/>
+          </svg>
+        </span>
+        <div class="explore-text">
+          <h4 data-lang="zh">其它站点陈哲威正在开发中</h4>
+          <h4 data-lang="en">More Sites Coming Soon</h4>
+          <p data-lang="zh">新的内容正在路上，敬请期待</p>
+          <p data-lang="en">New content is on the way, stay tuned</p>
+        </div>
+        <span class="explore-arrow" aria-hidden="true">…</span>
+      </div>
+      
     </div>
   </section>
 </div>
@@ -1261,37 +1551,45 @@ body.lang-en span[data-lang="en"]{display:inline;}
 <footer class="site-footer reveal-root">
   <div class="footer-icons reveal">
     <!-- GitHub -->
-    <a href="https://github.com/chen-zhewei" target="_blank" rel="noopener" aria-label="GitHub">
+    <a href="https://github.com/chen-zhewei" target="_blank" rel="noopener" aria-label="陈哲威的 GitHub">
       <svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
       </svg>
     </a>
 
     <!-- Steam -->
-    <a href="https://steamcommunity.com/id/chenzhewei/" target="_blank" rel="noopener" aria-label="Steam">
+    <a href="https://steamcommunity.com/id/chenzhewei/" target="_blank" rel="noopener" aria-label="陈哲威的 Steam">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
       </svg>
     </a>
 
     <!-- 抖音 -->
-    <a href="https://www.douyin.com/user/MS4wLjABAAAAT27gfoimJg_mmFLM6ZBt1w5gxjxb7LbynLwnUVYEzII" target="_blank" rel="noopener" aria-label="抖音">
+    <a href="https://www.douyin.com/user/MS4wLjABAAAAT27gfoimJg_mmFLM6ZBt1w5gxjxb7LbynLwnUVYEzII" target="_blank" rel="noopener" aria-label="陈哲威的抖音">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/>
       </svg>
     </a>
 
     <!-- 哔哩哔哩 -->
-    <a href="https://space.bilibili.com/1831160594" target="_blank" rel="noopener" aria-label="哔哩哔哩">
+    <a href="https://space.bilibili.com/1831160594" target="_blank" rel="noopener" aria-label="陈哲威的哔哩哔哩">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/>
       </svg>
     </a>
 
-    <!-- 快手 -->
-    <a href="https://live.kuaishou.com/profile/liu9shijiandao?fid=2628324547&cc=share_copylink&followRefer=151&shareMethod=TOKEN&kpn=NEBULA&subBiz=PROFILE&shareId=19145955021469&shareToken=XkqAbUIVO6cLCZ&shareResourceType=PROFILE_SELF&shareMode=APP&originShareId=19145955021469&appType=21&shareObjectId=2628324547&shareUrlOpened=0&timestamp=1791832142846" target="_blank" rel="noopener" aria-label="快手">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+    <!-- 快手（∞ + 面向左的圆润空心放映机） -->
+    <a href="https://live.kuaishou.com/profile/liu9shijiandao" target="_blank" rel="noopener" aria-label="陈哲威的快手">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- 上方 ∞：左圆 + 右圆 -->
+        <circle cx="9.5" cy="7" r="3.8"/>
+        <circle cx="18" cy="7" r="2.7"/>
+
+        <!-- 下方摄像机：左三角镜头（尖端朝右）+ 右圆角矩形机身 -->
+        <path d="M3 12.8 L10.5 16.5 L3 20.2 Z"/>
+        <rect x="10.5" y="12.8" width="10.2" height="7.4" rx="2.2"/>
       </svg>
     </a>
   </div>
@@ -1322,7 +1620,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   var cursorGlow= document.getElementById('cursorGlow');
   var liveTime  = document.getElementById('liveTime');
 
-  /* 光标光晕 */
+  /* 光标光晕 —— 使用 lerp 平滑跟随 */
   var mouseX = -500, mouseY = -500;
   var glowX = -500, glowY = -500;
 
@@ -1332,14 +1630,14 @@ body.lang-en span[data-lang="en"]{display:inline;}
   }, { passive: true });
 
   function animateGlow() {
-    glowX += (mouseX - glowX) * 0.14;
-    glowY += (mouseY - glowY) * 0.14;
-    cursorGlow.style.transform = 'translate3d(' + (glowX - 210) + 'px,' + (glowY - 210) + 'px,0)';
+    glowX += (mouseX - glowX) * 0.1;
+    glowY += (mouseY - glowY) * 0.1;
+    cursorGlow.style.transform = 'translate3d(' + (glowX - 240) + 'px,' + (glowY - 240) + 'px,0)';
     requestAnimationFrame(animateGlow);
   }
   animateGlow();
 
-  /* 实时时钟 */
+  /* 实时时钟 —— 每秒更新一次 */
   function tick() {
     var d = new Date();
     var h = String(d.getHours()).padStart(2, '0');
@@ -1350,7 +1648,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   tick();
   setInterval(tick, 1000);
 
-  /* 滚动方向 */
+  /* 滚动方向 + 导航高亮 */
   var lastY = window.scrollY;
   var dir   = 1;
   var ticking = false;
@@ -1370,10 +1668,11 @@ body.lang-en span[data-lang="en"]{display:inline;}
     toTop.classList.toggle('show', y > 480);
 
     var current = '';
-    ['about', 'experience', 'skills'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= 160) current = id;
-    });
+    var ids = ['about', 'experience', 'skills', 'explore'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (el && el.getBoundingClientRect().top <= 180) current = ids[i];
+    }
     navLinks.querySelectorAll('a').forEach(function (a) {
       a.classList.toggle('active', a.getAttribute('href') === '#' + current);
     });
@@ -1413,18 +1712,18 @@ body.lang-en span[data-lang="en"]{display:inline;}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* 技能条 */
+  /* 技能条 —— 使用 scaleX 替代 width，性能更好 */
   function resetBars(root) {
     root.querySelectorAll('.skill-fill').forEach(function (bar) {
       bar.style.transitionDelay = '0s';
-      bar.style.width = '0%';
-      void bar.offsetWidth;
+      bar.style.transform = 'scaleX(0)';
     });
   }
   function fillBars(root) {
     root.querySelectorAll('.skill-fill').forEach(function (bar, i) {
-      bar.style.transitionDelay = (0.22 + i * 0.08) + 's';
-      bar.style.width = bar.dataset.percent + '%';
+      bar.style.transitionDelay = (0.3 + i * 0.11) + 's';
+      var pct = parseFloat(bar.dataset.percent) || 0;
+      bar.style.transform = 'scaleX(' + (pct / 100) + ')';
     });
   }
 
@@ -1432,7 +1731,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   function countUp(el) {
     var target = parseInt(el.dataset.count, 10) || 0;
     var start = performance.now();
-    var dur = 1100;
+    var dur = 1400;
 
     function step(now) {
       var p = Math.min((now - start) / dur, 1);
@@ -1457,7 +1756,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 
   function replay(root) {
     var now = Date.now();
-    if (now - (Number(root.dataset.lastPlay) || 0) < 1200) return;
+    if (now - (Number(root.dataset.lastPlay) || 0) < 1400) return;
     root.dataset.lastPlay = now;
 
     root.classList.remove('is-in');
@@ -1497,18 +1796,20 @@ body.lang-en span[data-lang="en"]{display:inline;}
   /* 打字机 */
   var PHRASES = {
     zh: [
-      '自 2019 年自建服务器',
-      '用代码搭建网站',
+      '搭建并维护 Minecraft 服务器',
+      '搭建个人网站并不断更新',
       '开发检索问答 AI',
-      '玩转树莓派与 BadUSB',
-      '持续自学，持续热爱'
+      '写脚本和渗透测试',
+      '玩转开发板与制作软件',
+      '从小在家自学信息技术'
     ],
     en: [
-      'Running a self-built server since 2019',
-      'Building websites with code',
-      'Developing Q&A AI',
-      'Tinkering with Raspberry Pi & BadUSB',
-      'Always self-learning, always curious'
+      'Chen Zhewei · Running a self-built Minecraft server',
+      'chenzhewei · Building and updating my personal website',
+      'Chen Zhewei · Developing retrieval-based Q&A AI',
+      'chenzhewei · Writing scripts and doing penetration testing',
+      'Chen Zhewei · Tinkering with dev boards and building software',
+      'chenzhewei · Self-taught IT since childhood'
     ]
   };
 
@@ -1531,20 +1832,20 @@ body.lang-en span[data-lang="en"]{display:inline;}
       typeEl.textContent = text.slice(0, charIdx);
       if (charIdx >= text.length) {
         deleting = true;
-        typeTimer = setTimeout(typeLoop, 1700);
+        typeTimer = setTimeout(typeLoop, 1900);
         return;
       }
-      typeTimer = setTimeout(typeLoop, 85);
+      typeTimer = setTimeout(typeLoop, 90);
     } else {
       charIdx--;
       typeEl.textContent = text.slice(0, charIdx);
       if (charIdx <= 0) {
         deleting = false;
         typeIdx++;
-        typeTimer = setTimeout(typeLoop, 320);
+        typeTimer = setTimeout(typeLoop, 350);
         return;
       }
-      typeTimer = setTimeout(typeLoop, 38);
+      typeTimer = setTimeout(typeLoop, 40);
     }
   }
 
@@ -1554,7 +1855,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     charIdx = 0;
     deleting = false;
     typeEl.textContent = '';
-    typeTimer = setTimeout(typeLoop, 200);
+    typeTimer = setTimeout(typeLoop, 220);
   }
 
   restartType();
