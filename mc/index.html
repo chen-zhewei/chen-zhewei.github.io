@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEWI Minecraft Servers | Java版纯净养老生存</title>
+    <meta name="description" content="ZEWI Minecraft Servers 是开服5年以上的纯正 Java 版极简纯净养老生存服务器。支持多版本，全图形化操作，永不删档。">
+    <style>
+        /* ================= 全局变量与基础 ================= */
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --primary: #10b981;      /* 草方块绿 */
+            --primary-hover: #059669;
+            --blue: #3b82f6;         /* 强调色蓝 */
+            --blue-light: #eff6ff;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;      /* 终端代码底色 */
+            --online: #10b981;
+            --offline: #ef4444;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            /* 加了一层极其微弱的网格点阵背景，让左右不显得空旷 */
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        
+        /* 容器加宽，适应大屏幕 */
+        .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+        /* ================= 顶部导航 (极简) ================= */
+        .top-nav {
+            padding: 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            width: 22px; height: 22px;
+            background: var(--primary);
+            border-radius: 6px;
+            box-shadow: inset -3px -3px 0 rgba(0,0,0,0.15);
+        }
+
+        /* ================= 核心 Hero 区域 (左右分栏) ================= */
+        .hero {
+            padding: 40px 0 60px;
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr; /* 左边文章稍微放宽 */
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            color: var(--text-sub);
+            margin-bottom: 28px;
+            max-width: 520px;
+        }
+
+        .feature-tags { display: flex; flex-wrap: wrap; gap: 12px; }
+        .feature-tag {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 右侧：实时状态与通道卡片 */
+        .hero-dashboard {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-dashboard::before {
+            content: "";
+            position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--blue));
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .status-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background-color: #94a3b8;
+        }
+        .status-dot.online { background-color: var(--online); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); animation: pulse 2s infinite; }
+        .status-dot.offline { background-color: var(--offline); }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .status-text b { color: var(--primary); font-size: 22px; margin: 0 4px; }
+
+        .quick-connect label {
+            display: block; font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 10px;
+        }
+        
+        /* 优雅的复制组件 */
+        .copy-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px 10px 10px 20px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .copy-pill:hover { border-color: var(--primary); background: #ecfdf5; }
+        .copy-pill span {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .copy-pill button {
+            background: var(--primary); color: white; border: none;
+            padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .copy-pill:hover button { background: var(--primary-hover); }
+
+        /* ================= 资源横幅 (QQ群) ================= */
+        .resource-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: var(--radius-lg);
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .resource-banner:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .banner-content h3 { font-size: 20px; color: #0369a1; margin-bottom: 6px; }
+        .banner-content p { font-size: 15px; color: #0c4a6e; }
+        .banner-btn {
+            background: #0ea5e9; color: white; padding: 12px 24px; border-radius: 8px;
+            font-size: 15px; font-weight: 600; white-space: nowrap;
+        }
+
+        /* ================= 连接卡片区 ================= */
+        .section-title {
+            font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+            margin-bottom: 30px; display: flex; align-items: center; gap: 12px;
+        }
+        .section-title::before {
+            content: ""; width: 8px; height: 28px; background: var(--primary); border-radius: 4px;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 30px;
+            box-shadow: var(--shadow-sm); position: relative;
+        }
+
+        .card.radmin { border: 2px solid var(--blue); }
+        .card-badge {
+            position: absolute; top: -14px; right: 24px;
+            background: var(--blue); color: white; font-size: 13px; font-weight: 600;
+            padding: 4px 14px; border-radius: 20px;
+        }
+
+        .card h3 { font-size: 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .card p { font-size: 15px; color: var(--text-sub); margin-bottom: 20px; }
+        
+        .info-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #f8fafc; padding: 14px 20px; border-radius: 8px;
+            border: 1px solid var(--border); margin-bottom: 10px;
+        }
+        .info-row span { font-size: 15px; color: var(--text-sub); }
+        .info-row b { font-size: 16px; color: var(--text-main); font-family: ui-monospace, monospace; }
+
+        .connect-action {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--card-bg); border: 1px dashed var(--border);
+            padding: 14px 20px; border-radius: 8px; margin-top: 16px;
+        }
+        .connect-action .ip { font-family: ui-monospace, monospace; font-size: 16px; font-weight: 600; }
+        
+        .btn-copy {
+            background: var(--bg-color); border: 1px solid var(--border);
+            color: var(--text-main); padding: 8px 16px; border-radius: 6px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-copy:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-copy.blue:hover { background: var(--blue); border-color: var(--blue); }
+
+        /* 运营商全宽卡片 */
+        .card.full-width { margin-bottom: 60px; }
+        .isp-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+        }
+        .isp-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #f8fafc; padding: 12px 16px; border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .isp-item .isp-name { font-size: 14px; color: var(--text-sub); font-weight: 500;}
+        .isp-item b { font-size: 14px; font-family: ui-monospace, monospace; }
+
+        /* ================= 插件展示区 ================= */
+        .plugin-category { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 20px;}
+        .plugin-category.active::before { content: "⚡"; }
+        .plugin-category.passive::before { content: "⚙️"; }
+
+        .plugin-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;
+        }
+
+        .plugin-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: var(--radius-lg); padding: 24px;
+            box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .plugin-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        
+        .plugin-card.active-plugin { border-left: 4px solid var(--blue); }
+        .plugin-card.passive-plugin { border-left: 4px solid var(--primary); }
+
+        .plugin-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+        .plugin-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+        .active-plugin .plugin-icon { background: var(--blue-light); }
+        .passive-plugin .plugin-icon { background: #ecfdf5; }
+
+        .plugin-title h4 { font-size: 17px; margin-bottom: 2px; }
+        .plugin-title span { font-size: 13px; color: var(--text-sub); }
+
+        .plugin-desc { font-size: 14.5px; color: var(--text-sub); flex: 1; margin-bottom: 20px; }
+
+        /* 极客风代码块 */
+        .code-block {
+            background: var(--code-bg); border-radius: 8px; padding: 16px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 13.5px; color: #e2e8f0; overflow-x: auto;
+        }
+        .code-line { display: flex; margin-bottom: 8px; }
+        .code-line:last-child { margin-bottom: 0; }
+        .code-cmd { color: #38bdf8; font-weight: 600; margin-right: 16px; }
+        .code-comment { color: #64748b; user-select: none; }
+
+        /* ================= 常见问答区 ================= */
+        .faq-section { margin-top: 60px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; }
+        .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .faq-item h4 { font-size: 16px; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
+        .faq-item h4::before { content: "Q"; background: var(--primary); color: white; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; font-weight: bold;}
+        .faq-item p { font-size: 14.5px; color: var(--text-sub); padding-left: 28px; }
+
+        /* ================= 赞助与页脚 ================= */
+        .sponsor-section { text-align: center; padding: 80px 0; background: var(--card-bg); border-top: 1px solid var(--border); }
+        .qr-grid { display: flex; justify-content: center; gap: 60px; margin-top: 40px; }
+        .qr-box { text-align: center; }
+        .qr-img {
+            width: 180px; height: 180px; background: var(--bg-color);
+            border: 2px dashed var(--border); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-sub); font-size: 15px; margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .qr-box:hover .qr-img { border-color: var(--primary); }
+        footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 14px; background: var(--bg-color); }
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 992px) {
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 40px; padding: 20px 0 40px;}
+            .hero-desc { margin: 0 auto 28px; }
+            .feature-tags { justify-content: center; }
+            .isp-grid { grid-template-columns: 1fr; }
+            .faq-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .resource-banner { flex-direction: column; text-align: center; gap: 20px; padding: 24px; }
+            .connect-action { flex-direction: column; gap: 12px; text-align: center; }
+            .connect-action .btn-copy { width: 100%; }
+            .isp-item { flex-direction: column; gap: 8px; }
+            .sponsor-section { padding: 50px 0; }
+            .qr-grid { flex-direction: column; align-items: center; gap: 40px; }
+            .faq-section { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 极简导航 -->
+        <nav class="top-nav">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                ZEWI MC Servers
+            </div>
+        </nav>
+
+        <!-- 核心区域：左文右控制台 -->
+        <header class="hero">
+            <div class="hero-text">
+                <div class="hero-badge">纯正 Java 版 · 5年老存档</div>
+                <h1>ZEWI Minecraft Servers</h1>
+                <p class="hero-desc">
+                    一个极简、纯净、没有繁杂氪金系统的养老生存服务器。全版本支持，全图形化菜单，期待你的加入。
+                </p>
+                <div class="feature-tags">
+                    <div class="feature-tag">🌍 永不删档</div>
+                    <div class="feature-tag">📱 手机/电脑互通</div>
+                    <div class="feature-tag">🖱️ 全图形化操作</div>
+                    <div class="feature-tag">🛡️ 领地防破坏</div>
+                </div>
+            </div>
+
+            <!-- 右侧：优雅的状态与一键复制面板 -->
+            <div class="hero-dashboard">
+                <div class="status-header">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span class="status-text" id="statusText">正在获取服务器状态...</span>
+                </div>
+                
+                <div class="quick-connect">
+                    <label>主通道 (直连)</label>
+                    <div class="copy-pill" onclick="copyText('frp-hat.com:52823', this)">
+                        <span>frp-hat.com:52823</span>
+                        <button>一键复制</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 资源横幅：QQ群 -->
+        <div class="resource-banner" onclick="copyText('2169018216', this)">
+            <div class="banner-content">
+                <h3>加入交流群：2169018216</h3>
+                <p>群文件提供：PCL2启动器(Java版) · 手机版我的世界Java版 · Radmin LAN (蓝盾) 下载</p>
+            </div>
+            <div class="banner-btn">复制群号加群</div>
+        </div>
+
+        <!-- 连接方式详解 -->
+        <h2 class="section-title">连接方式</h2>
+        
+        <div class="grid-2">
+            <!-- Radmin LAN -->
+            <div class="card radmin">
+                <div class="card-badge">⭐ 最推荐 · 延迟最低</div>
+                <h3>Radmin LAN <span style="font-size:13px; color:var(--blue); font-weight:normal; background:var(--blue-light); padding:4px 8px; border-radius:6px;">零流量消耗</span></h3>
+                <p>使用虚拟局域网直连，不消耗服务器公网流量，极其稳定。（蓝盾软件请加上方QQ群下载）</p>
+                
+                <div class="info-row">
+                    <span>网络名称</span>
+                    <b>zewimc</b>
+                </div>
+                <div class="info-row">
+                    <span>网络密码</span>
+                    <b>zewimc</b>
+                </div>
+
+                <div class="connect-action">
+                    <span class="ip">26.144.150.250:25565</span>
+                    <button class="btn-copy blue" onclick="copyText('26.144.150.250:25565', this)">复制 IP</button>
+                </div>
+            </div>
+
+            <!-- 通道 1 -->
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3>通道 1 (NewMcIp)</h3>
+                    <p>无需任何软件，直接进入游戏添加服务器。若直连卡顿，请尝试下方的运营商加速节点。</p>
+                </div>
+                
+                <div class="connect-action">
+                    <span class="ip">frp-hat.com:52823</span>
+                    <button class="btn-copy" onclick="copyText('frp-hat.com:52823', this)">复制 IP</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 运营商加速节点 (全宽卡片) -->
+        <div class="card full-width">
+            <h3>运营商专用加速节点</h3>
+            <p style="margin-bottom: 16px;">如遇主通道延迟较高，可根据你所在的宽带运营商选择对应的节点进行直连。</p>
+            <div class="isp-grid">
+                <div class="isp-item">
+                    <span class="isp-name">电信线路</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <b>dx.frp-hat.com:52823</b>
+                        <button class="btn-copy" style="padding: 4px 10px; font-size:12px;" onclick="copyText('dx.frp-hat.com:52823', this)">复制</button>
+                    </div>
+                </div>
+                <div class="isp-item">
+                    <span class="isp-name">移动线路</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <b>yd.frp-hat.com:52823</b>
+                        <button class="btn-copy" style="padding: 4px 10px; font-size:12px;" onclick="copyText('yd.frp-hat.com:52823', this)">复制</button>
+                    </div>
+                </div>
+                <div class="isp-item">
+                    <span class="isp-name">联通线路</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <b>lt.frp-hat.com:52823</b>
+                        <button class="btn-copy" style="padding: 4px 10px; font-size:12px;" onclick="copyText('lt.frp-hat.com:52823', this)">复制</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 插件与特色区 -->
+        <h2 class="section-title">服务器特色 & 插件</h2>
+        
+        <!-- 主动类 -->
+        <div class="plugin-category active">需要玩家操作 (主动插件)</div>
+        <div class="plugin-grid">
+            <!-- Home -->
+            <div class="plugin-card active-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">🚀</div>
+                    <div class="plugin-title"><h4>快捷传送系统</h4><span>Home / RTP</span></div>
+                </div>
+                <div class="plugin-desc">支持随机传送与个人传送点，每人最多可设置 <b>10个</b> 传送点。</div>
+                <div class="code-block">
+                    <div class="code-line"><span class="code-cmd">/sethome 名字</span><span class="code-comment">// 设置传送点</span></div>
+                    <div class="code-line"><span class="code-cmd">/home 名字</span><span class="code-comment">// 传送至传送点</span></div>
+                    <div class="code-line"><span class="code-cmd">/rtp</span><span class="code-comment">// 随机传送</span></div>
+                    <div class="code-line"><span class="code-cmd">/back</span><span class="code-comment">// 返回上次位置</span></div>
+                </div>
+            </div>
+
+            <!-- Dominion -->
+            <div class="plugin-card active-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">🏡</div>
+                    <div class="plugin-title"><h4>领地保护</h4><span>Dominion</span></div>
+                </div>
+                <div class="plugin-desc">极为强大的领地系统。圈地、加好友、设权限全图形化，鼠标点一点有手就行。</div>
+                <div class="code-block">
+                    <div class="code-line"><span class="code-cmd">/dom</span><span class="code-comment">// 打开领地主菜单</span></div>
+                </div>
+            </div>
+
+            <!-- AuthMe -->
+            <div class="plugin-card active-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">🔒</div>
+                    <div class="plugin-title"><h4>密码防盗</h4><span>AuthMe</span></div>
+                </div>
+                <div class="plugin-desc">进服需图形化输入密码，防止他人恶意顶号，保护你的财产。登录注册全图形化。</div>
+                <div class="code-block">
+                    <div class="code-line"><span class="code-cmd">/cp 旧密码 新密码</span><span class="code-comment">// 更改密码</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 被动类 -->
+        <div class="plugin-category passive" style="margin-top:50px;">自动默默运行 (被动插件)</div>
+        <div class="plugin-grid">
+            <!-- ViaVersion -->
+            <div class="plugin-card passive-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">🔄</div>
+                    <div class="plugin-title"><h4>全版本兼容</h4><span>ViaVersion</span></div>
+                </div>
+                <div class="plugin-desc">服务器支持 Java 版 1.8 至最新版进入，同时支持基岩版（手机/平板）互通游玩。</div>
+            </div>
+
+            <!-- ClearLag -->
+            <div class="plugin-card passive-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">🧹</div>
+                    <div class="plugin-title"><h4>性能优化清理</h4><span>ClearLag</span></div>
+                </div>
+                <div class="plugin-desc">定时清理掉落物保证不卡顿。每次清理前 <b>60秒</b> 全服提示，最后 <b>5秒</b> 会进行倒计时播报。</div>
+            </div>
+            
+            <!-- CreeperGuard -->
+            <div class="plugin-card passive-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">💥</div>
+                    <div class="plugin-title"><h4>防爆保护</h4><span>CreeperGuard</span></div>
+                </div>
+                <div class="plugin-desc">再也不用担心苦力怕炸坏你的火柴盒了！苦力怕爆炸将不再破坏方块，安心建造。</div>
+            </div>
+
+            <!-- SkinsRestorer (放在被动这里平衡排版) -->
+            <div class="plugin-card passive-plugin">
+                <div class="plugin-top">
+                    <div class="plugin-icon">👕</div>
+                    <div class="plugin-title"><h4>皮肤更换</h4><span>SkinsRestorer</span></div>
+                </div>
+                <div class="plugin-desc">非正版玩家也能显示皮肤！可一键更换正版皮肤或自定义皮肤。</div>
+                <div class="code-block" style="margin-top:10px;">
+                    <div class="code-line"><span class="code-cmd">/skins</span><span class="code-comment">// 皮肤菜单</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 常见问题 (填补底部视觉空白) -->
+        <div class="faq-section">
+            <h2 class="section-title" style="margin-bottom: 24px;">新手常见问题</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>进服需要下载什么模组吗？</h4>
+                    <p>不需要。这是原版 Paper 服务器，直接使用纯净客户端即可进入。如果在QQ群下载，可以直接下载我们提供的整合包。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>手机可以玩吗？</h4>
+                    <p>完全可以。服务器支持基岩版互通，安卓用户可以在QQ群下载专门适配的手机端 Java 版启动器。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>为什么强烈推荐 Radmin LAN？</h4>
+                    <p>Radmin LAN（蓝盾）是虚拟局域网工具，连接速度极快，延迟极低。并且走的是内网通道，不消耗服务器的公网带宽，体验最顺滑。</p>
+                </div>
+                <div class="faq-item">
+                    <h4>我的东西会被偷吗？</h4>
+                    <p>不会。服务器自带密码登录（AuthMe）防盗号，同时拥有强大的领地插件（Dominion），你圈的地别人进不来也拆不掉。</p>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End Container -->
+
+    <!-- 赞助区域 -->
+    <section class="sponsor-section">
+        <div class="container">
+            <h2 class="section-title" style="justify-content: center; border: none; margin-bottom: 10px;">支持服务器</h2>
+            <p style="color: var(--text-sub); font-size: 16px;">ZEWI 服务器完全免费。如果它为你带来了快乐，欢迎赞助支持服务器的硬件与带宽开销。</p>
+            
+            <div class="qr-grid">
+                <div class="qr-box">
+                    <div class="qr-img">微信收款码</div>
+                    <span style="font-weight: 500;">微信赞助</span>
+                </div>
+                <div class="qr-box">
+                    <div class="qr-img">支付宝收款码</div>
+                    <span style="font-weight: 500;">支付宝赞助</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>Copyright &copy; ZEWI Minecraft Servers. All rights reserved.</p>
+            <p style="margin-top: 8px; opacity: 0.7;">Powered by Paper · Maintained by 陈哲威</p>
+        </div>
+    </footer>
+
+    <!-- JS 脚本 -->
+    <script>
+        // ================= 实时服务器状态查询 =================
+        async function fetchServerStatus() {
+            const serverAddress = "frp-hat.com:52823";
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            try {
+                // 强制时间戳防止缓存，确保刷新更新
+                const response = await fetch(`https://api.mcsrvstat.us/3/${serverAddress}?t=${new Date().getTime()}`);
+                const data = await response.json();
+
+                if (data.online) {
+                    statusDot.className = 'status-dot online';
+                    const players = data.players ? (data.players.online || 0) : 0;
+                    
+                    if (data.players && data.players.max > 0) {
+                        statusText.innerHTML = `在线玩家 <b>${players}</b> 人`;
+                    } else {
+                        statusText.innerHTML = `服务器在线`;
+                    }
+                } else {
+                    statusDot.className = 'status-dot offline';
+                    statusText.innerHTML = `服务器当前离线`;
+                }
+            } catch (error) {
+                console.error("状态获取失败:", error);
+                statusDot.className = 'status-dot offline';
+                statusText.innerHTML = `状态获取失败，请刷新页面`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchServerStatus();
+            setInterval(fetchServerStatus, 60000);
+        });
+
+        // ================= 复制功能 =================
+        function copyText(text, element) {
+            navigator.clipboard.writeText(text).then(() => {
+                // 资源横幅（QQ群）
+                if(element.classList.contains('resource-banner')) {
+                    const btn = element.querySelector('.banner-btn');
+                    const original = btn.innerText;
+                    btn.innerText = "✔ 已复制";
+                    btn.style.background = "#059669";
+                    setTimeout(() => {
+                        btn.innerText = original;
+                        btn.style.background = "";
+                    }, 2000);
+                } 
+                // 复制胶囊（主通道）
+                else if(element.classList.contains('copy-pill')) {
+                    const btn = element.querySelector('button');
+                    const original = btn.innerText;
+                    btn.innerText = "✔ 已复制";
+                    setTimeout(() => { btn.innerText = original; }, 2000);
+                }
+                // 普通小按钮
+                else {
+                    const original = element.innerText;
+                    element.innerText = "已复制";
+                    element.style.background = "#10b981";
+                    element.style.color = "#fff";
+                    setTimeout(() => {
+                        element.innerText = original;
+                        element.style.background = "";
+                        element.style.color = "";
+                    }, 2000);
+                }
+            }).catch(err => {
+                alert('复制失败，请手动选择复制');
+            });
+        }
+    </script>
+</body>
+</html>
