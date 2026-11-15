@@ -325,14 +325,22 @@
         .sponsor-section { text-align: center; padding: 80px 0; background: var(--card-bg); border-top: 1px solid var(--border); }
         .qr-grid { display: flex; justify-content: center; gap: 60px; margin-top: 40px; }
         .qr-box { text-align: center; }
-        .qr-img {
-            width: 180px; height: 180px; background: var(--bg-color);
-            border: 2px dashed var(--border); border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-sub); font-size: 15px; margin-bottom: 16px;
-            transition: border-color 0.2s;
+        
+        /* 修改为真实图片的样式 */
+        .qr-image {
+            width: 180px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
         }
-        .qr-box:hover .qr-img { border-color: var(--primary); }
+        .qr-box:hover .qr-image { 
+            transform: translateY(-5px); 
+            box-shadow: var(--shadow-lg);
+        }
+
         footer { text-align: center; padding: 40px 0; color: var(--text-sub); font-size: 14px; background: var(--bg-color); }
 
         /* ================= 响应式 ================= */
@@ -352,6 +360,7 @@
             .sponsor-section { padding: 50px 0; }
             .qr-grid { flex-direction: column; align-items: center; gap: 40px; }
             .faq-section { padding: 24px; }
+            .qr-image { width: 150px; } /* 手机端稍微小一点 */
         }
     </style>
 </head>
@@ -597,13 +606,15 @@
             <p style="color: var(--text-sub); font-size: 16px;">ZEWI 服务器完全免费。如果它为你带来了快乐，欢迎赞助支持服务器的硬件与带宽开销。</p>
             
             <div class="qr-grid">
+                <!-- 微信赞助 -->
                 <div class="qr-box">
-                    <div class="qr-img">微信收款码</div>
-                    <span style="font-weight: 500;">微信赞助</span>
+                    <img src="wx.png" alt="微信赞助" class="qr-image">
+                    <span style="font-weight: 500; display: block;">微信赞助</span>
                 </div>
+                <!-- 支付宝赞助 -->
                 <div class="qr-box">
-                    <div class="qr-img">支付宝收款码</div>
-                    <span style="font-weight: 500;">支付宝赞助</span>
+                    <img src="zfb.webp" alt="支付宝赞助" class="qr-image">
+                    <span style="font-weight: 500; display: block;">支付宝赞助</span>
                 </div>
             </div>
         </div>
